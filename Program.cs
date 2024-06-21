@@ -14,46 +14,60 @@ namespace MidTerm
         public double Price { get; set; }
         public int QuantityInStock { get; set; }
 
-        // Constructor
+        // Constructor to initialize the inventory items
         public InventoryItem(string itemName, int itemId, double price, int quantityInStock)
         {
-            // TODO: Initialize the properties with the values passed to the constructor.
+            ItemName = itemName;
+            ItemId = itemId;
+            Price = price;
+            QuantityInStock = quantityInStock;
         }
 
-        // Methods
+        // helper  methods to manage the inventory
 
         // Update the price of the item
-        public void UpdatePrice(double newPrice)
+        public void UpdatePrice(double updatedPrice)
         {
-            // TODO: Update the item's price with the new price.
+            Price = updatedPrice;
         }
 
-        // Restock the item
-        public void RestockItem(int additionalQuantity)
+        // Restock the item for taking additional quantity  as a paramter
+        public void RestockItem(int extraQuantity)
         {
-            // TODO: Increase the item's stock quantity by the additional quantity.
+            QuantityInStock += extraQuantity;
         }
 
-        // Sell an item
+        // method to sell the items
         public void SellItem(int quantitySold)
         {
-            // TODO: Decrease the item's stock quantity by the quantity sold.
-            // Make sure the stock doesn't go negative.
+            if (QuantityInStock >= quantitySold)
+            {
+                QuantityInStock -= quantitySold;
+            }
+            else
+            {
+                Console.WriteLine("There is no stock to complete the purchase");
+            }
         }
 
-        // Check if an item is in stock
+        // Check if an item is in stock available for sale
         public bool IsInStock()
         {
-            // TODO: Return true if the item is in stock (quantity > 0), otherwise false.
-            return false;
+            //return true if quantity is  greater than zero
+            return QuantityInStock > 0;
         }
 
-        // Print item details
+        // Print  details of items in the inventory management
         public void PrintDetails()
         {
-            // TODO: Print the details of the item (name, id, price, and stock quantity).
+            Console.WriteLine($"Item Name: {ItemName}");
+            Console.WriteLine($"Item ID: {ItemId}");
+            Console.WriteLine($"Price: {Price:C}");
+            Console.WriteLine($"Quantity in Stock: {QuantityInStock}");
+            Console.WriteLine();
         }
     }
+
     class Program
     {
         static void Main(string[] args)
@@ -62,15 +76,33 @@ namespace MidTerm
             InventoryItem item1 = new InventoryItem("Laptop", 101, 1200.50, 10);
             InventoryItem item2 = new InventoryItem("Smartphone", 102, 800.30, 15);
 
-            // TODO: Implement logic to interact with these objects.
-            // Example tasks:
-            // 1. Print details of all items.
-            // 2. Sell some items and then print the updated details.
-            // 3. Restock an item and print the updated details.
-            // 4. Check if an item is in stock and print a message accordingly.
+            // 1 . Print details of all items
+            Console.WriteLine("Starting  Inventory of all  the Itemms");
+            item1.PrintDetails();
+            item2.PrintDetails();
 
+            // 2 . Sell some items
+            item1.SellItem(2); // Selling 2 Laptops
+            item2.SellItem(5); // Selling 5 Smartphones
 
+            // 3 . Print updated details after selling laptop and smartphone
+            Console.WriteLine("Inventory after selling  2 laptop and  5 smartpohone:");
+            item1.PrintDetails();
+            item2.PrintDetails();
+
+            // 4 . Restock an item
+            item1.RestockItem(5); // adding 5 Laptops
+            item2.RestockItem(3); // adding 3 Smartphones
+
+            //5 .  Print updated details after restocking laptop and smart phone
+            Console.WriteLine("Inventory after restocking  laptop and smart phone:");
+            item1.PrintDetails();
+            item2.PrintDetails();
+
+            // 6 . Check if items are in stock and print a message related to stock using ternary operator
+            Console.WriteLine("Stock status of inventory management:");
+            Console.WriteLine($"{item1.ItemName} is {(item1.IsInStock() ? "in stock" : "out of stock")}");
+            Console.WriteLine($"{item2.ItemName} is {(item2.IsInStock() ? "in stock" : "out of stock")}");
         }
     }
-
 }
